@@ -1,7 +1,7 @@
 # 🦞 miniclawd
 
-A lightweight personal AI assistant with multi-channel support.  
-Built with TypeScript + Bun in **~5700 lines of code**.
+A lightweight personal AI assistant with multi-channel support.
+Built with TypeScript + Bun in **~5900 lines of code**.
 
 ![miniclawd](./assets/miniclawd.png)
 
@@ -13,7 +13,7 @@ Built with TypeScript + Bun in **~5700 lines of code**.
 
 - **Multi-LLM Support** — Anthropic, OpenAI, Google, OpenRouter, Groq, AWS Bedrock
 - **Multi-Channel** — Telegram, Feishu (Lark)
-- **Built-in Tools** — File I/O, shell execution, web fetch
+- **Built-in Tools** — File I/O, shell execution, web search & fetch
 - **Skills System** — Extend capabilities via Markdown
 - **Persistent Memory** — Long-term memory + daily notes
 - **Scheduling** — Cron jobs + heartbeat checks
