@@ -127,6 +127,7 @@ export class AgentLoop {
             channel: msg.channel,
             chatId: msg.chatId,
             content: `Sorry, I encountered an error: ${error}`,
+            metadata: msg.metadata,
           })
         );
       }
@@ -159,7 +160,7 @@ export class AgentLoop {
     // Update tool contexts
     const messageTool = this.tools.get("message") as MessageTool | undefined;
     if (messageTool) {
-      messageTool.setContext(msg.channel, msg.chatId);
+      messageTool.setContext(msg.channel, msg.chatId, msg.metadata);
     }
 
     const spawnTool = this.tools.get("spawn") as SpawnTool | undefined;
@@ -240,6 +241,7 @@ export class AgentLoop {
       channel: msg.channel,
       chatId: msg.chatId,
       content: finalContent,
+      metadata: msg.metadata,
     });
   }
 
@@ -266,7 +268,7 @@ export class AgentLoop {
     // Update tool contexts
     const messageTool = this.tools.get("message") as MessageTool | undefined;
     if (messageTool) {
-      messageTool.setContext(originChannel, originChatId);
+      messageTool.setContext(originChannel, originChatId, msg.metadata);
     }
 
     const spawnTool = this.tools.get("spawn") as SpawnTool | undefined;

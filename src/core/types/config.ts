@@ -17,9 +17,20 @@ export interface TelegramConfig {
   allowFrom: string[];
 }
 
+export interface YunhuConfig {
+  enabled: boolean;
+  token: string;
+  allowFrom: string[];
+  /** Webhook监听端口（可选，默认18791） */
+  webhookPort?: number;
+  /** Webhook路径（可选，默认/event/msg） */
+  webhookPath?: string;
+}
+
 export interface ChannelsConfig {
   telegram: TelegramConfig;
   feishu: FeishuConfig;
+  yunhu: YunhuConfig;
 }
 
 export interface AgentDefaults {

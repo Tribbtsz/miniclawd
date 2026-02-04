@@ -4,6 +4,7 @@
 
 import { existsSync, readFileSync, writeFileSync, unlinkSync, readdirSync } from "fs";
 import { join } from "path";
+import { homedir } from "os";
 import { ensureDir, safeFilename } from "../../utils/paths.js";
 import type { Session, SessionMessage, SessionInfo } from "../../core/types/session.js";
 import type { ISessionStore } from "../../core/interfaces/storage.js";
@@ -69,7 +70,7 @@ export class SessionManager implements ISessionStore {
   private cache: Map<string, Session> = new Map();
 
   constructor(workspace: string) {
-    this.sessionsDir = ensureDir(join(process.env.HOME || "", ".miniclawd", "sessions"));
+    this.sessionsDir = ensureDir(join(homedir(), ".miniclawd", "sessions"));
   }
 
   private getSessionPath(key: string): string {

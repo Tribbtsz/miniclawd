@@ -4,6 +4,7 @@
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
+import { homedir } from "os";
 import { ConfigSchema } from "./schema.js";
 import type { Config } from "../../core/types/config.js";
 
@@ -11,14 +12,14 @@ import type { Config } from "../../core/types/config.js";
  * Get the default configuration file path.
  */
 export function getConfigPath(): string {
-  return join(process.env.HOME || "", ".miniclawd", "config.json");
+  return join(homedir(), ".miniclawd", "config.json");
 }
 
 /**
  * Get the miniclawd data directory.
  */
 export function getDataDir(): string {
-  const dir = join(process.env.HOME || "", ".miniclawd");
+  const dir = join(homedir(), ".miniclawd");
   if (!existsSync(dir)) {
     mkdirSync(dir, { recursive: true });
   }

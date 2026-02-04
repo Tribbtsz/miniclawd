@@ -113,6 +113,7 @@ export class AIProvider implements ILLMProvider {
       case "openai": {
         const openai = createOpenAI({
           apiKey: this.config.providers.openai.apiKey || process.env.OPENAI_API_KEY,
+          baseURL: this.config.providers.openai.apiBase || "https://api.openai.com/v1",
         });
         return openai(modelName || "gpt-4o");
       }

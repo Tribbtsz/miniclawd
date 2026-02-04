@@ -3,6 +3,7 @@
  */
 
 import { z } from "zod";
+import { homedir } from "os";
 import type { Config } from "../../core/types/config.js";
 
 export const FeishuConfigSchema = z.object({
@@ -20,9 +21,18 @@ export const TelegramConfigSchema = z.object({
   allowFrom: z.array(z.string()).default([]),
 });
 
+export const YunhuConfigSchema = z.object({
+  enabled: z.boolean().default(false),
+  token: z.string().default(""),
+  allowFrom: z.array(z.string()).default([]),
+  webhookPort: z.number().optional(),
+  webhookPath: z.string().optional(),
+});
+
 export const ChannelsConfigSchema = z.object({
   telegram: TelegramConfigSchema.default({}),
   feishu: FeishuConfigSchema.default({}),
+  yunhu: YunhuConfigSchema.default({}),
 });
 
 export const AgentDefaultsSchema = z.object({
@@ -89,7 +99,7 @@ export const ConfigSchema = z.object({
  */
 export function getWorkspacePath(config: Config): string {
   const workspace = config.agents.defaults.workspace;
-  return workspace.replace(/^~/, process.env.HOME || "");
+  return workspace.replace(/^~/, homedir());
 }
 
 /**

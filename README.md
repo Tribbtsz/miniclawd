@@ -12,7 +12,7 @@ Built with TypeScript + Bun in **~5900 lines of code**.
 ## Features
 
 - **Multi-LLM Support** — Anthropic, OpenAI, Google, OpenRouter, Groq, AWS Bedrock
-- **Multi-Channel** — Telegram, Feishu (Lark)
+- **Multi-Channel** — Telegram, Feishu (Lark), Yunhu (YHChat)
 - **Built-in Tools** — File I/O, shell execution, web search & fetch
 - **Skills System** — Extend capabilities via Markdown
 - **Persistent Memory** — Long-term memory + daily notes
@@ -131,6 +131,55 @@ Format: `provider/model`
     }
   }
 }
+```
+
+### Yunhu (YHChat)
+
+1. Create bot at [Yunhu Console](https://www.yhchat.com/control)
+2. Get bot token from bot settings
+3. Configure webhook URL: `http://your-server:18791/event/msg`
+
+```json
+{
+  "channels": {
+    "yunhu": {
+      "enabled": true,
+      "token": "your-yunhu-bot-token",
+      "allow_from": [],
+      "webhook_port": 18791,
+      "webhook_path": "/event/msg"
+    }
+  }
+}
+```
+
+**Configuration Options:**
+
+- `enabled`: Enable/disable Yunhu channel
+- `token`: Bot token from Yunhu console
+- `allow_from`: Allowlist of user IDs (empty = allow all)
+- `webhook_port`: Webhook server port (default: 18791)
+- `webhook_path`: Webhook endpoint path (default: `/event/msg`)
+
+**Supported Message Types:**
+
+- Text messages
+- Markdown messages (code blocks, formatting)
+- HTML messages
+- Images (auto-upload)
+- Files (auto-upload)
+- Videos (auto-upload)
+
+**Webhook Setup:**
+
+Configure webhook URL in Yunhu bot settings:
+```
+http://your-server:18791/event/msg
+```
+
+Use ngrok or similar for local development:
+```bash
+ngrok http 18791
 ```
 
 Then start: `miniclawd gateway`

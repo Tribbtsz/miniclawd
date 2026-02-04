@@ -7,6 +7,7 @@ import type { Config } from "../../core/types/config.js";
 import { BaseChannel } from "./base.js";
 import { TelegramChannel } from "./telegram.js";
 import { FeishuChannel } from "./feishu.js";
+import { YunhuChannel } from "./yunhu.js";
 import logger from "../../utils/logger.js";
 
 /**
@@ -52,6 +53,17 @@ export class ChannelManager {
         logger.info("Feishu channel enabled");
       } catch (error) {
         logger.warn({ error }, "Feishu channel not available");
+      }
+    }
+
+    // Yunhu channel
+    if (this.config.channels.yunhu.enabled) {
+      try {
+        const channel = new YunhuChannel(this.config.channels.yunhu, this.bus);
+        this.channels.set("yunhu", channel);
+        logger.info("Yunhu channel enabled");
+      } catch (error) {
+        logger.warn({ error }, "Yunhu channel not available");
       }
     }
   }

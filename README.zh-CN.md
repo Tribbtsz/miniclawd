@@ -12,7 +12,7 @@
 ## 特性
 
 - **多 LLM 支持** — Anthropic、OpenAI、Google、OpenRouter、Groq、AWS Bedrock
-- **多渠道接入** — Telegram、飞书
+- **多渠道接入** — Telegram、飞书、云湖（Yunhu）
 - **内置工具** — 文件读写、Shell 执行、网页抓取
 - **技能系统** — 通过 Markdown 扩展能力
 - **持久记忆** — 长期记忆 + 每日笔记
@@ -127,6 +127,26 @@ miniclawd agent -m "你好！"
       "enabled": true,
       "app_id": "cli_xxx",
       "app_secret": "xxx",
+      "allow_from": []
+    }
+  }
+}
+```
+
+### 云湖（Yunhu）
+
+1. 在 [云湖控制台台](https://www.yhchat.com/control/) 创建机器人
+2. 获取机器人 Token
+3. 配置 Webhook 回调地址（生产阶段是miniclaw地址，开发阶段需要使用 ngrok 等工具暴露公网地址）
+
+```json
+{
+  "channels": {
+    "yunhu": {
+      "enabled": true,
+      "token": "your_bot_token_here",
+      "webhook_port": 18790,
+      "webhook_path": "/event/msg",
       "allow_from": []
     }
   }

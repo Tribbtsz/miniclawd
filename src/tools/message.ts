@@ -26,7 +26,7 @@ function createOutboundMessage(
  */
 export class MessageTool extends Tool {
   readonly name = "message";
-  readonly description = "Send a message to the user. Use this when you want to communicate something.";
+  readonly description = "Send a message to user. Use this when you want to communicate something.";
   readonly parameters = z.object({
     content: z.string().describe("The message content to send"),
     channel: z.string().optional().describe("Optional: target channel (telegram, feishu, etc.)"),
@@ -36,6 +36,7 @@ export class MessageTool extends Tool {
   private sendCallback: SendCallback | null = null;
   private defaultChannel: string = "";
   private defaultChatId: string = "";
+  private defaultMetadata: Record<string, unknown> = {};
 
   constructor(options?: { sendCallback?: SendCallback; defaultChannel?: string; defaultChatId?: string }) {
     super();
@@ -45,15 +46,16 @@ export class MessageTool extends Tool {
   }
 
   /**
-   * Set the current message context.
+   * Set current message context.
    */
-  setContext(channel: string, chatId: string): void {
+  setContext(channel: string, chatId: string, metadata?: Record<string, unknown>): void {
     this.defaultChannel = channel;
     this.defaultChatId = chatId;
+    this.defaultMetadata = metadata || {};
   }
 
   /**
-   * Set the callback for sending messages.
+   * Set callback for sending messages.
    */
   setSendCallback(callback: SendCallback): void {
     this.sendCallback = callback;
@@ -75,6 +77,7 @@ export class MessageTool extends Tool {
       channel,
       chatId,
       content: params.content,
+      metadata: this.defaultMetadata,
     });
 
     try {

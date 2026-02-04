@@ -4,6 +4,7 @@
 
 import { existsSync, mkdirSync } from "fs";
 import { join } from "path";
+import { homedir } from "os";
 
 /**
  * Ensure a directory exists, creating it if necessary.
@@ -20,7 +21,7 @@ export function ensureDir(path: string): string {
  */
 export function expandUser(path: string): string {
   if (path.startsWith("~")) {
-    return path.replace(/^~/, process.env.HOME || "");
+    return path.replace(/^~/, homedir());
   }
   return path;
 }
@@ -29,7 +30,7 @@ export function expandUser(path: string): string {
  * Get the miniclawd data directory (~/.miniclawd).
  */
 export function getDataPath(): string {
-  return ensureDir(join(process.env.HOME || "", ".miniclawd"));
+  return ensureDir(join(homedir(), ".miniclawd"));
 }
 
 /**
@@ -38,7 +39,7 @@ export function getDataPath(): string {
 export function getWorkspacePath(workspace?: string): string {
   const path = workspace
     ? expandUser(workspace)
-    : join(process.env.HOME || "", ".miniclawd", "workspace");
+    : join(homedir(), ".miniclawd", "workspace");
   return ensureDir(path);
 }
 

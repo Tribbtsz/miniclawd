@@ -5,6 +5,7 @@
 import { Bot, Context } from "grammy";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { join } from "path";
+import { homedir } from "os";
 import type { OutboundMessage } from "../../core/types/message.js";
 import type { TelegramConfig } from "../../core/types/config.js";
 import { MessageBus } from "../queue/message-bus.js";
@@ -246,7 +247,7 @@ export class TelegramChannel extends BaseChannel {
         const ext = this.getExtension(mediaType!, mediaFile.mime_type);
 
         // Save to ~/.miniclawd/media/
-        const mediaDir = join(process.env.HOME || "", ".miniclawd", "media");
+        const mediaDir = join(homedir(), ".miniclawd", "media");
         if (!existsSync(mediaDir)) {
           mkdirSync(mediaDir, { recursive: true });
         }
