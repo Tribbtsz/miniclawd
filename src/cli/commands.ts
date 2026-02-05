@@ -18,6 +18,25 @@ const VERSION = "0.1.0";
 const LOGO = "miniclawd";
 
 /**
+ * Check if any provider has an API key configured.
+ */
+function hasApiKey(config: any): boolean {
+  const providers = config.providers;
+  return !!(
+    providers.anthropic?.apiKey ||
+    providers.openai?.apiKey ||
+    providers.openrouter?.apiKey ||
+    providers.google?.apiKey ||
+    providers.groq?.apiKey ||
+    process.env.ANTHROPIC_API_KEY ||
+    process.env.OPENAI_API_KEY ||
+    process.env.OPENROUTER_API_KEY ||
+    process.env.GOOGLE_API_KEY ||
+    process.env.GROQ_API_KEY
+  );
+}
+
+/**
  * Create workspace template files.
  */
 function createWorkspaceTemplates(workspace: string): void {
@@ -169,19 +188,9 @@ export function createProgram(): Command {
       const workspace = getWorkspacePath(config);
 
       // Check for API key
-      const hasApiKey =
-        config.providers.anthropic.apiKey ||
-        config.providers.openai.apiKey ||
-        config.providers.openrouter.apiKey ||
-        config.providers.google.apiKey ||
-        process.env.ANTHROPIC_API_KEY ||
-        process.env.OPENAI_API_KEY ||
-        process.env.OPENROUTER_API_KEY ||
-        process.env.GOOGLE_API_KEY;
-
-      if (!hasApiKey) {
+      if (!hasApiKey(config)) {
         console.error("Error: No API key configured.");
-        console.error("Set one in ~/.miniclawd/config.json under providers.anthropic.apiKey");
+        console.error("Set one in ~/.miniclawd/config.json under providers.");
         process.exit(1);
       }
 
@@ -260,18 +269,14 @@ export function createProgram(): Command {
       const config = loadConfig();
 
       // Check for API key
-      const hasApiKey =
-        config.providers.anthropic.apiKey ||
-        config.providers.openai.apiKey ||
-        config.providers.openrouter.apiKey ||
-        config.providers.google.apiKey ||
-        process.env.ANTHROPIC_API_KEY ||
-        process.env.OPENAI_API_KEY ||
-        process.env.OPENROUTER_API_KEY ||
-        process.env.GOOGLE_API_KEY;
-
-      if (!hasApiKey) {
+      if (!hasApiKey(config)) {
         console.error("Error: No API key configured.");
+        console.error("Configure one of these providers in ~/.miniclawd/config.json:");
+        console.error("  - providers.anthropic.apiKey");
+        console.error("  - providers.openai.apiKey");
+        console.error("  - providers.openrouter.apiKey");
+        console.error("  - providers.google.apiKey");
+        console.error("  - providers.groq.apiKey");
         process.exit(1);
       }
 
